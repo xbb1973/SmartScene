@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16.0dip</dimen>
+    <dimen name="activity_vertical_margin">16.0dip</dimen>
+    <dimen name="grid_padding_left_right">10.0dip</dimen>
+    <dimen name="grid_vertical_space">20.0dip</dimen>
+    <dimen name="grid_horizontal_space">16.0dip</dimen>
+    <dimen name="app_text_padding_top">5.0dip</dimen>
+    <dimen name="app_text_size">12.0sp</dimen>
+    <dimen name="app_icon_size">44.0dip</dimen>
+    <dimen name="icon_grid_padding_left_right">19.0dip</dimen>
+    <dimen name="icon_grid_padding_top_bottom">8.0dip</dimen>
+    <dimen name="icon_grid_vertical_space">16.0dip</dimen>
+    <dimen name="icon_grid_horizontal_space">38.0dip</dimen>
+    <dimen name="prefs_icon_padding_left_right">12.0dip</dimen>
+    <dimen name="prefs_icon_padding_top_bottom">8.0dip</dimen>
+    <dimen name="prefs_edit_margin_top_bottom">12.0dip</dimen>
+    <dimen name="prefs_edit_text_size">16.0sp</dimen>
+    <dimen name="scene_icon_img_size">44.0dip</dimen>
+    <dimen name="list_head_text_size">12.0sp</dimen>
+    <dimen name="list_head_padding_left">16.0dip</dimen>
+    <dimen name="list_head_height">24.0dip</dimen>
+    <dimen name="list_item_padding_left_right">16.0dip</dimen>
+    <dimen name="list_icon_padding_right">12.0dip</dimen>
+    <dimen name="list_item_title_text_size">16.0sp</dimen>
+    <dimen name="list_item_summary_text_size">12.0sp</dimen>
+    <dimen name="nfc_wirte_text_size">12.0sp</dimen>
+    <dimen name="add_prefs_button_padding_top_bottom">9.0dip</dimen>
+    <dimen name="action_scene_margin_left">16.0sp</dimen>
+    <dimen name="action_scene_text_size">16.0sp</dimen>
+    <dimen name="action_scene_text_space">4.0dip</dimen>
+    <dimen name="action_scene_value_margin_left">12.0dip</dimen>
+    <dimen name="preference_item_padding_side">16.0dip</dimen>
+    <dimen name="nfc_write_icon_padding_right">16.0dip</dimen>
+</resources>

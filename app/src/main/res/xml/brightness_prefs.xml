@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="brightness_prefs_key"
+        android:persistent="true"
+        android:summary=""
+        android:title="@string/brightness_title" />
+</PreferenceScreen>

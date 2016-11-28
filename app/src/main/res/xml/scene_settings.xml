@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
+    android:key="@string/scene_settings_key"
+    android:title="@string/app_name">
+
+
+    <PreferenceCategory
+        android:key="@string/bind_ap_key"
+        android:title="@string/scene_list_head_ap">
+
+        <SwitchPreference
+            android:title="home"
+            android:checked="false" />
+
+        <SwitchPreference
+            android:title="office"
+            android:checked="true" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:key="@string/scene_list_key"
+        android:title="@string/scene_list_head_alarm">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

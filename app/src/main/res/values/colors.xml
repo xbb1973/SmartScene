@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="edit_text_color">#7f191919</color>
+    <color name="list_head_background_color">#12191919</color>
+    <color name="nfc_write_text_color">#ff191919</color>
+    <color name="action_scene_text_color">#ff191919</color>
+    <color name="list_item_title_text_color">#ff191919</color>
+    <color name="list_item_title_text_active_color">#ff2cadf1</color>
+    <color name="list_item_summary_text_color">#99191919</color>
+    <color name="text_color_selected">#ffffffff</color>
+    <color name="edit_color_pressed">#ffffffff</color>
+    <color name="edit_color_focused">#ff191919</color>
+    <color name="edit_color_disable">#ffacacac</color>
+    <color name="edit_color_normal">#ffd1d1d1</color>
+</resources>
