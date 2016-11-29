@@ -28,7 +28,7 @@ public class FakeSwitchPreferenceAdapter extends BaseAdapter {
     List<SmartScene> alarmList;
     List<SmartScene> apList;
     LayoutInflater layoutinflater;
-    ViewHolder viewHolder = new ViewHolder();
+    ViewHolder viewHolder;
 
     public FakeSwitchPreferenceAdapter(Context context, Map<Integer, List<SmartScene>> map) {
         this.context = context;
@@ -62,6 +62,7 @@ public class FakeSwitchPreferenceAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (getItem(i) != null) {
+            viewHolder = new ViewHolder();
             view = layoutinflater.inflate(R.layout.scene_list_item, viewGroup, false);
             viewHolder.textHead = (TextView) view.findViewById(R.id.text_head);
             viewHolder.icon = (ImageView) view.findViewById(R.id.scene_icon);

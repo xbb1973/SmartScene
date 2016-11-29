@@ -3,28 +3,23 @@ package com.huaqin.widget;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.huaqin.provider.SmartScene;
 import com.huaqin.smartscene.R;
-import com.huaqin.triggler.SceneTriggler;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by HongYilin 16-11-25 下午5:23
  */
 public class FakeRadioPreferenceAdapter extends BaseAdapter {
+
     Context context;
     List<SmartScene> list;
     LayoutInflater layoutinflater;
@@ -55,7 +50,7 @@ public class FakeRadioPreferenceAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (getItem(i) != null) {
             viewHolder = new ViewHolder();
-            view = layoutinflater.inflate(R.layout.trigger_select_list, viewGroup, false);
+            view = layoutinflater.inflate(R.layout.radio_button_item, viewGroup, false);
             viewHolder.icon = (ImageView) view.findViewById(R.id.trigger_icon);
             viewHolder.textLayout = view.findViewById(R.id.text_layout);
             viewHolder.title = (TextView) view.findViewById(android.R.id.title);

@@ -1,8 +1,11 @@
 <resources>
     <!--preference key strings-->
     <string name="scene_settings_key">scene_settings_key</string>
-    <string name="scene_list_key">scene_list_key</string>
-    <string name="bind_ap_key">bind_ap_key</string>
+    <string name="edit_key">edit_key</string>
+    <string name="scene_bind_key">scene_bind_key</string>
+    <string name="scene_feature_key">scene_feature_key</string>
+    <string name="alarm_title_key">alarm_title_key</string>
+
     <!--original strings-->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -37,6 +40,7 @@
     <string name="scene_end">场景关闭时间</string>
     <string name="switch_time">定时切换时间</string>
     <string name="switch_time_frequency">定时切换频率</string>
+    <string name="switch_once">一次</string>
     <string name="switch_every_day">每天</string>
     <string name="switch_week_day">工作日</string>
     <string name="switch_week_end">周末</string>

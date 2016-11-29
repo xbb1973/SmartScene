@@ -12,4 +12,5 @@
     <color name="edit_color_focused">#ff191919</color>
     <color name="edit_color_disable">#ffacacac</color>
     <color name="edit_color_normal">#ffd1d1d1</color>
+    <color name="add_button_bg">#ffffffff</color>
 </resources>

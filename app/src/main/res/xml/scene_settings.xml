@@ -3,27 +3,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:key="@string/scene_settings_key"
-    android:title="@string/app_name">
+    android:title="@string/new_scene">
 
+    <com.huaqin.preference.EditPreference
+        android:key="@string/edit_key"
+        android:title="@string/edit_title"/>
 
     <PreferenceCategory
-        android:key="@string/bind_ap_key"
-        android:title="@string/scene_list_head_ap">
+        android:key="@string/scene_bind_key"
+        android:title="@string/scene_bind">
 
-        <SwitchPreference
-            android:title="home"
-            android:checked="false" />
-
-        <SwitchPreference
-            android:title="office"
-            android:checked="true" />
+        <com.huaqin.preference.CommonPreference
+            android:key="@string/alarm_title_key"
+            android:title="@string/alarm_title" />
 
     </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:key="@string/scene_list_key"
-        android:title="@string/scene_list_head_alarm">
+        android:key="@string/scene_feature_key"
+        android:title="@string/scene_feature">
 
     </PreferenceCategory>
 
