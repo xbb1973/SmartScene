@@ -32,10 +32,10 @@
             android:layout_below="@android:id/title" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@android:id/widget_frame"
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical" />
 
