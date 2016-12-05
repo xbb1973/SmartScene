@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_head_background_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/time_head"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/list_head_height"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/list_head_padding_left"
+            android:text="@string/switch_time"
+            android:textColor="@color/edit_text_color"
+            android:textSize="@dimen/list_head_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minHeight="?android:listPreferredItemHeight"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/preference_item_padding_side"
+        android:paddingStart="@dimen/preference_item_padding_side">
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/start_time"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scene_start" />
+
+            <TextView
+                android:id="@android:id/summary"
+                style="@style/ListItemTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/start_time"
+                android:layout_below="@+id/start_time"
+                android:text="14:00" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/end_time"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scene_end" />
+
+            <TextView
+                android:id="@android:id/summary"
+                style="@style/ListItemTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/end_time"
+                android:layout_below="@+id/end_time"
+                android:text="19:59" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <!--
+    another UI
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:listPreferredItemHeight"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/preference_item_padding_side"
+            android:paddingStart="@dimen/preference_item_padding_side">
+
+            <RelativeLayout
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6.0dip"
+                android:layout_marginEnd="0.0dip"
+                android:layout_marginStart="0.0dip"
+                android:layout_marginTop="6.0dip"
+                android:layout_weight="1.0">
+
+                <TextView
+                    android:id="@+id/end_time"
+                    style="@style/ListItemSummaryTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scene_end" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    style="@style/ListItemTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/end_time"
+                    android:layout_below="@+id/end_time"
+                    android:text="19:59" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_head_background_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/frequency_head"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/list_head_height"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/list_head_padding_left"
+            android:text="@string/switch_time_frequency"
+            android:textColor="@color/edit_text_color"
+            android:textSize="@dimen/list_head_text_size" />
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/widget_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:listPreferredItemHeight"
+        android:paddingEnd="@dimen/list_item_padding_left_right"
+        android:paddingStart="@dimen/list_item_padding_left_right">
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/onceT"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_once" />
+
+        </RelativeLayout>
+
+        <RadioButton
+            android:id="@+id/onceR"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3.0dip"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:listPreferredItemHeight"
+        android:paddingEnd="@dimen/list_item_padding_left_right"
+        android:paddingStart="@dimen/list_item_padding_left_right">
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/everydayT"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_every_day" />
+
+        </RelativeLayout>
+
+        <RadioButton
+            android:id="@+id/everydayR"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3.0dip"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:listPreferredItemHeight"
+        android:paddingEnd="@dimen/list_item_padding_left_right"
+        android:paddingStart="@dimen/list_item_padding_left_right">
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/weekdayT"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_week_day" />
+
+        </RelativeLayout>
+
+        <RadioButton
+            android:id="@+id/weekdayR"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3.0dip"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:listPreferredItemHeight"
+        android:paddingEnd="@dimen/list_item_padding_left_right"
+        android:paddingStart="@dimen/list_item_padding_left_right">
+
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:layout_marginStart="0.0dip"
+            android:layout_marginTop="6.0dip"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/weekendT"
+                style="@style/ListItemSummaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_week_end" />
+
+        </RelativeLayout>
+
+        <RadioButton
+            android:id="@+id/weekendR"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3.0dip"
+            android:gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>

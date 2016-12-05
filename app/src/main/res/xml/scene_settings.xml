@@ -5,7 +5,7 @@
     android:key="@string/scene_settings_key"
     android:title="@string/new_scene">
 
-    <com.huaqin.preference.EditPreference
+    <com.xbb.preference.EditPreference
         android:key="@string/edit_key"
         android:title="@string/edit_title"/>
 
@@ -13,7 +13,7 @@
         android:key="@string/scene_bind_key"
         android:title="@string/scene_bind">
 
-        <com.huaqin.preference.CommonPreference
+        <com.xbb.preference.CommonPreference
             android:key="@string/alarm_title_key"
             android:title="@string/alarm_title" />
 

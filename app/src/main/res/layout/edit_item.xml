@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_item"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:paddingEnd="@dimen/list_item_padding_left_right"
+    android:paddingStart="@dimen/list_item_padding_left_right" >
+
+    <ImageView
+        android:id="@+id/edit_icon"
+        android:layout_width="@dimen/scene_icon_img_size"
+        android:layout_height="@dimen/scene_icon_img_size"
+        android:layout_marginBottom="@dimen/prefs_icon_padding_top_bottom"
+        android:layout_marginTop="@dimen/prefs_icon_padding_top_bottom"
+        android:background="#00000000"
+        android:paddingEnd="@dimen/list_icon_padding_right" />
+
+
+    <EditText
+        android:id="@id/edittext_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/prefs_edit_margin_top_bottom"
+        android:layout_marginStart="@dimen/list_icon_padding_right"
+        android:layout_marginTop="@dimen/prefs_edit_margin_top_bottom"
+        android:layout_toEndOf="@+id/edit_icon"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:hint="@string/scene_title_empty_name_note"
+        android:singleLine="true"
+        android:textColor="@color/text_color_selected"
+        android:textSize="@dimen/prefs_edit_text_size">
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>
+

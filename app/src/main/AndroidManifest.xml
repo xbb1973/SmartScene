@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.huaqin.smartscene">
+    package="com.xbb.smartscene">
 
     <application
         android:allowBackup="true"
@@ -17,12 +17,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SceneSettingActivity"
-            android:label="@string/new_scene" />
+            android:name=".SceneSettingActivity" />
         <activity
             android:name=".AlarmSettingActivity"
             android:label="@string/alarm_title"/>
-
+        <provider
+            android:authorities="com.xbb.smartscene"
+            android:name="com.xbb.provider.SceneContenProvider" />
     </application>
 
 </manifest>
