@@ -1,2 +1,2 @@
 # SmartScene
-Something like AudioProfile, this is branch xbb1973.
+Something like AudioProfile, powering by xbb1973.
