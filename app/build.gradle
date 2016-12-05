@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.huaqin.smartscene"
+        applicationId "com.xbb.smartscene"
         minSdkVersion 17
         targetSdkVersion 20
         versionCode 1
@@ -21,4 +21,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.gustavofao:JSONApi:1.0.9.3@aar'
 }
