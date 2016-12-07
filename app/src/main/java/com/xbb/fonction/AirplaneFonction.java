@@ -2,15 +2,19 @@ package com.xbb.fonction;
 
 import android.content.Context;
 
+import com.gustavofao.jsonapi.Annotations.Type;
 import com.xbb.provider.SmartScene;
 
 /**
  * Created by HongYilin 16-11-21 下午4:51
  */
+@Type("airplane")
 public class AirplaneFonction extends SceneFonction {
 
+    public AirplaneFonction() {}
+
     public AirplaneFonction(SmartScene smartScene) {
-        super(eFonctionMode.AIRPLANE);
+        super(SceneFonction.AIRPLANE);
     }
 
     @Override

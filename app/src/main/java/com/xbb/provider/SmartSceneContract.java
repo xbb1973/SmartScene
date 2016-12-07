@@ -1,7 +1,6 @@
 package com.xbb.provider;
 
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 /**
  * Created by HongYiLin
@@ -26,7 +25,7 @@ public class SmartSceneContract {
      * Constants for tables with AlarmSettings.
      */
     private interface CommonColumns {
-        String _ID = "_id";
+        String ID = "id";
         public static final String LABEL = "label";
 
     }
@@ -54,7 +53,7 @@ public class SmartSceneContract {
 
 
         public static final String SMARTSCENE = "smart_scene";
-        public static final long INVALID_ID = -1;
+        public static final String INVALID_ID = "-1";
 
         /**
          * The default sort order for this table
@@ -62,20 +61,20 @@ public class SmartSceneContract {
         public static final String DEFAULT_SORT_ORDER =
                 STARTHOUR + ", " +
                         STARTMINUTES + " ASC" + ", " +
-                        _ID + " DESC";
+                        ID + " DESC";
 
         public static final String[] QUERY_COLUMNS = {
-                _ID,
+                ID,
                 LABEL,
                 ICON,
                 ENABLED,
                 ACTIVE,
                 TRIGGERMODE,
-                FREQUENCY,
-                STARTHOUR,
-                STARTMINUTES,
-                ENDHOUR,
-                ENDMINUTES,
+//                FREQUENCY,
+//                STARTHOUR,
+//                STARTMINUTES,
+//                ENDHOUR,
+//                ENDMINUTES,
                 FONCTIONLIST
         };
 
@@ -89,12 +88,7 @@ public class SmartSceneContract {
         public static final int ENABLED_INDEX = 3;
         public static final int ACTIVE_INDEX = 4;
         public static final int TRIGGERMODE_INDEX = 5;
-        public static final int FREQUENCY_INDEX = 6;
-        public static final int STARTHOUR_INDEX = 7;
-        public static final int STARTMINUTES_INDEX = 8;
-        public static final int ENDHOUR_INDEX = 9;
-        public static final int ENDMINUTES_INDEX = 10;
-        public static final int FONCTIONLIST_INDEX = 11;
+        public static final int FONCTIONLIST_INDEX = 6;
 
         public static final int COLUMN_COUNT = FONCTIONLIST_INDEX + 1;
     }

@@ -40,8 +40,8 @@ public class FakeSwitchPreferenceAdapter extends BaseAdapter {
         this.context = context;
         this.sparseArray = sparseArray;
 
-        alarmList = this.sparseArray.get(SceneTrigger.eTriggleMode.ALARM.ordinal());
-        apList = this.sparseArray.get(SceneTrigger.eTriggleMode.AP.ordinal());
+        alarmList = this.sparseArray.get(SceneTrigger.ALARM);
+        apList = this.sparseArray.get(SceneTrigger.AP);
         layoutinflater = LayoutInflater.from(context);
     }
 
@@ -88,10 +88,10 @@ public class FakeSwitchPreferenceAdapter extends BaseAdapter {
     private void fillViewHolder(final int i) {
         //data
         switch (getItem(i).getSceneTrigger().mTrigglerMode) {
-            case ALARM:
+            case SceneTrigger.ALARM:
                 viewHolder.textHead.setText(context.getString(R.string.scene_list_head_alarm));
                 break;
-            case AP:
+            case SceneTrigger.AP:
                 viewHolder.textHead.setText(context.getString(R.string.scene_list_head_ap));
                 break;
             default:
@@ -104,7 +104,7 @@ public class FakeSwitchPreferenceAdapter extends BaseAdapter {
 
         viewHolder.icon.setImageDrawable(context.getResources().getDrawable(getItem(i).getIcon()));
         viewHolder.title.setText(getItem(i).getLabel());
-        viewHolder.summary.setText(getItem(i).getSceneTrigger().getInfo());
+        viewHolder.summary.setText(getItem(i).getSceneTrigger().getInfo(context));
         viewHolder.enable.setChecked(getItem(i).isEnabled());
 
         //listener

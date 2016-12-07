@@ -2,15 +2,19 @@ package com.xbb.fonction;
 
 import android.content.Context;
 
+import com.gustavofao.jsonapi.Annotations.Type;
 import com.xbb.provider.SmartScene;
 
 /**
  * Created by HongYilin 16-11-21 下午4:51
  */
+@Type("gps")
 public class GpsFonction extends SceneFonction {
 
+    public GpsFonction() {}
+
     public GpsFonction(SmartScene smartScene) {
-        super(eFonctionMode.GPS);
+        super(SceneFonction.GPS);
     }
 
     @Override

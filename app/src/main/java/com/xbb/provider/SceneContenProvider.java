@@ -48,7 +48,7 @@ public class SceneContenProvider extends ContentProvider {
                 break;
             case SCENES_ID:
                 qb.setTables(SceneDatabaseHelper.SCENES_TABLE_NAME);
-                qb.appendWhere(SmartSceneContract.SmartSceneColumns._ID + "=");
+                qb.appendWhere(SmartSceneContract.SmartSceneColumns.ID + "=");
                 qb.appendWhere(uri.getLastPathSegment());
                 break;
 
@@ -91,7 +91,7 @@ public class SceneContenProvider extends ContentProvider {
             case SCENES_ID:
                 alarmId = uri.getLastPathSegment();
                 count = db.update(SceneDatabaseHelper.SCENES_TABLE_NAME, values,
-                        SmartSceneContract.SmartSceneColumns._ID + "=" + alarmId,
+                        SmartSceneContract.SmartSceneColumns.ID + "=" + alarmId,
                         null);
                 break;
             default: {
@@ -133,9 +133,9 @@ public class SceneContenProvider extends ContentProvider {
             case SCENES_ID:
                 primaryKey = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(where)) {
-                    where = SmartSceneContract.SmartSceneColumns._ID + "=" + primaryKey;
+                    where = SmartSceneContract.SmartSceneColumns.ID + "=" + primaryKey;
                 } else {
-                    where = SmartSceneContract.SmartSceneColumns._ID + "=" + primaryKey +
+                    where = SmartSceneContract.SmartSceneColumns.ID + "=" + primaryKey +
                             " AND (" + where + ")";
                 }
                 count = db.delete(SceneDatabaseHelper.SCENES_TABLE_NAME, where, whereArgs);

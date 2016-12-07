@@ -22,6 +22,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/start_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
@@ -49,7 +50,7 @@
                 android:text="@string/scene_start" />
 
             <TextView
-                android:id="@android:id/summary"
+                android:id="@+id/start_time_summary"
                 style="@style/ListItemTitleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/end_layout"
             android:layout_width="0.0dip"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6.0dip"
@@ -77,7 +79,7 @@
                 android:text="@string/scene_end" />
 
             <TextView
-                android:id="@android:id/summary"
+                android:id="@+id/end_time_summary"
                 style="@style/ListItemTitleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

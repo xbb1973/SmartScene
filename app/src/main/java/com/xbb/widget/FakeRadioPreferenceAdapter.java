@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.xbb.provider.SmartScene;
 import com.xbb.smartscene.R;
+import com.xbb.triggler.SceneTrigger;
 import com.xbb.util.LogUtils;
 
 import java.util.List;
@@ -56,15 +57,16 @@ public class FakeRadioPreferenceAdapter extends BaseAdapter {
             viewHolder.title = (TextView) view.findViewById(android.R.id.title);
             viewHolder.summary = (TextView) view.findViewById(android.R.id.summary);
             viewHolder.select = (RadioButton) view.findViewById(R.id.radio_selected);
+
             viewHolder.select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LogUtils.e(getItem(i).isEnabled() + "");
                     getItem(i).setEnabled(!getItem(i).isEnabled());
                     setOtherUnable(list, getItem(i));
                     notifyDataSetChanged();
                 }
             });
+
             fillViewHolder(viewHolder, i);
             return view;
         }
@@ -73,9 +75,8 @@ public class FakeRadioPreferenceAdapter extends BaseAdapter {
 
     private void setOtherUnable(List<SmartScene> list, SmartScene smartScene) {
         for (SmartScene s : list) {
-            if (!s.equals(smartScene)) {
+            if (!s.getLabel().equals(smartScene.getLabel())) {
                 s.setEnabled(false);
-                notifyDataSetChanged();
             }
         }
     }
@@ -83,13 +84,13 @@ public class FakeRadioPreferenceAdapter extends BaseAdapter {
     private void fillViewHolder(ViewHolder viewHolder, int i) {
         //data
         switch (getItem(i).getSceneTrigger().mTrigglerMode) {
-            case ALARM:
+            case SceneTrigger.ALARM:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_pre_4));
                 viewHolder.title.setText(R.string.alarm_title);
                 viewHolder.summary.setText(R.string.trigger_alarm_note);
                 viewHolder.select.setChecked(getItem(i).isEnabled());
                 break;
-            case AP:
+            case SceneTrigger.AP:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_pre_3));
                 viewHolder.title.setText(R.string.scene_list_head_ap);
                 viewHolder.summary.setText(R.string.trigger_ap_note);
@@ -103,13 +104,13 @@ public class FakeRadioPreferenceAdapter extends BaseAdapter {
         }
     }
 
-    public SmartScene getEnableTrigger() {
+    public int getMode() {
         for (SmartScene s : list) {
             if (s.isEnabled()) {
-                return s;
+                return Integer.valueOf(s.getLabel());
             }
         }
-        return null;
+        return 0;
     }
 
 

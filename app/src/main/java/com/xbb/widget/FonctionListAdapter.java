@@ -74,47 +74,47 @@ public class FonctionListAdapter extends BaseAdapter {
     private void fillViewHolder(int i) {
         //data
         switch (getItem(i).mFonctionMode) {
-            case AUDIO_PROFILE:
+            case SceneFonction.AUDIO_PROFILE:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_sound));
                 viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.summary.setText(context.getText(R.string.audio_profiles_title));
                 viewHolder.enable.setVisibility(View.GONE);
                 break;
-            case AIRPLANE:
+            case SceneFonction.AIRPLANE:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_airplanemodel));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.title.setText(context.getText(R.string.airplane_title));
+                viewHolder.summary.setText(context.getText(R.string.airplane_title));
                 break;
-            case BLUE_TOOTH:
+            case SceneFonction.BLUE_TOOTH:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_bluetooth));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.title.setText(context.getText(R.string.bluetooth_title));
+                viewHolder.summary.setText(context.getText(R.string.bluetooth_title));
                 break;
-            case WLAN:
+            case SceneFonction.WLAN:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_wifi));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.title.setText(context.getText(R.string.WLAN));
+                viewHolder.summary.setText(context.getText(R.string.WLAN));
                 break;
-            case DATA_CONNECT:
+            case SceneFonction.DATA_CONNECT:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_celluar));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.title.setText(context.getText(R.string.data_connection_title));
+                viewHolder.summary.setText(context.getText(R.string.data_connection_title));
                 break;
-            case BRIGHTNESS:
+            case SceneFonction.BRIGHTNESS:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_light));
                 viewHolder.title.setText(context.getText(R.string.brightness_title));
                 viewHolder.summary.setText(getItem(i).getInfo(context));
                 viewHolder.enable.setVisibility(View.GONE);
                 break;
-            case APP:
-                viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_settings));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
-                break;
-            case GPS:
+            case SceneFonction.GPS:
                 viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_gps));
-                viewHolder.title.setText(context.getText(R.string.audio_profiles_title));
-                viewHolder.summary.setText(context.getText(R.string.audio_profiles));
+                viewHolder.title.setText(context.getText(R.string.gps_title));
+                viewHolder.summary.setText(context.getText(R.string.gps_title));
+                break;
+            case SceneFonction.APP:
+                viewHolder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_settings));
+                viewHolder.title.setText(context.getText(R.string.open_app_title));
+                viewHolder.summary.setText(context.getText(R.string.open_app_title));
                 break;
             default:
                 break;

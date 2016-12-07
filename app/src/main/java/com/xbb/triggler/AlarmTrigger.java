@@ -1,10 +1,14 @@
 package com.xbb.triggler;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.gustavofao.jsonapi.Annotations.Excluded;
 import com.gustavofao.jsonapi.Annotations.Type;
 import com.xbb.provider.SmartScene;
+import com.xbb.smartscene.R;
 
 /**
  * Created by HongYilin 16-11-22 下午10:11
@@ -12,11 +16,49 @@ import com.xbb.provider.SmartScene;
 @Type("alarmtrigger")
 public class AlarmTrigger extends SceneTrigger implements Parcelable {
 
-    public eFrequency getFrequency() {
+    @Excluded
+    final public static int ONCE = 0;
+    @Excluded
+    final public static int EVERYDAY = ONCE + 1;
+    @Excluded
+    final public static int WEEKDAY = EVERYDAY + 1;
+    @Excluded
+    final public static int WEEKEND = WEEKDAY + 1;
+
+    private int frequency;
+    private int startHour;
+    private int startMinutes;
+    private int endHour;
+    private int endMinutes;
+
+    public AlarmTrigger() {
+    }
+
+    public AlarmTrigger(SmartScene parent) {
+        super(parent, SceneTrigger.ALARM);
+        setOther(ONCE, 0, 0, 23, 59);
+    }
+
+    public int getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(eFrequency frequency) {
+    public String getFrequency(Context context) {
+        switch (frequency) {
+            case ONCE:
+                return context.getResources().getString(R.string.switch_once);
+            case EVERYDAY:
+                return context.getResources().getString(R.string.switch_every_day);
+            case WEEKDAY:
+                return context.getResources().getString(R.string.switch_week_day);
+            case WEEKEND:
+                return context.getResources().getString(R.string.switch_week_end);
+            default:
+                return context.getResources().getString(R.string.no_data);
+        }
+    }
+
+    public void setFrequency(int frequency) {
         this.frequency = frequency;
     }
 
@@ -52,37 +94,36 @@ public class AlarmTrigger extends SceneTrigger implements Parcelable {
         this.endMinutes = endMinutes;
     }
 
-    private eFrequency frequency;
-    private int startHour;
-    private int startMinutes;
-    private int endHour;
-    private int endMinutes;
 
-    public AlarmTrigger() {}
 
-    public AlarmTrigger(SmartScene smartScene) {
-        super(eTriggleMode.ALARM);
-    }
-
-    public AlarmTrigger(int startH, int startM, int endH, int endM, eFrequency frequency) {
-        super(eTriggleMode.ALARM);
-        this.startHour = startH;
-        this.startMinutes = startM;
-        this.endHour = endH;
-        this.endMinutes = endM;
-        this.frequency = frequency;
+    public void setOther(int frequency, int i, int i1, int i2, int i3) {
+        setFrequency(frequency);
+        setStartHour(i);
+        setStartMinutes(i1);
+        setEndHour(i2);
+        setEndMinutes(i3);
     }
 
     @Override
-    public String getInfo() {
-        String s = startHour + ":" + startMinutes + "---" + endHour + ":" + endMinutes;
+    public String getTitle(Context context) {
+        return context.getString(R.string.alarm_title);
+    }
+
+    @Override
+    public Drawable getIcon(Context context) {
+        return context.getResources().getDrawable(R.drawable.icon_pre_4);
+    }
+
+    @Override
+    public String getInfo(Context context) {
+        String s = getFrequency(context) + "  " + startHour + ":" + startMinutes + "---" + endHour + ":" + endMinutes;
         return s;
     }
 
     // =============================================================================================
     // Parcelable Interface
 
-    public AlarmTrigger(final Parcel in){
+    public AlarmTrigger(final Parcel in) {
         readFromParcel(in);
     }
 
@@ -97,7 +138,8 @@ public class AlarmTrigger extends SceneTrigger implements Parcelable {
     };
 
     private void readFromParcel(Parcel in) {
-        frequency = eFrequency.values()[in.readInt()];
+        //special
+        frequency = in.readInt();
         startHour = in.readInt();
         startMinutes = in.readInt();
         endHour = in.readInt();
@@ -111,21 +153,11 @@ public class AlarmTrigger extends SceneTrigger implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(frequency.ordinal());
+        //special
+        parcel.writeInt(frequency);
         parcel.writeInt(startHour);
         parcel.writeInt(startMinutes);
         parcel.writeInt(endHour);
         parcel.writeInt(endMinutes);
-    }
-
-    public static enum eFrequency {
-        ONCE,
-        EVERYDAY,
-        WEEKDAY,
-        WEEKEND;
-        static {
-            AlarmTrigger.eFrequency[] frequency =
-                    new AlarmTrigger.eFrequency[]{ONCE, EVERYDAY, WEEKDAY, WEEKEND};
-        }
     }
 }
