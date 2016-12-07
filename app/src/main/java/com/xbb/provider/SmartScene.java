@@ -12,12 +12,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.gustavofao.jsonapi.Annotations.Type;
-import com.gustavofao.jsonapi.Annotations.Types;
+import com.gustavofao.jsonapi.Models.JSONApiObject;
 import com.gustavofao.jsonapi.Models.Resource;
 import com.xbb.fonction.SceneFonction;
 import com.xbb.smartscene.SmartSceneActivity;
-import com.xbb.triggler.AlarmTrigger;
 import com.xbb.triggler.SceneTrigger;
+import com.xbb.util.LogUtils;
+
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,21 +32,12 @@ import java.util.List;
 public class SmartScene extends Resource implements Parcelable, SmartSceneContract.SmartSceneColumns, Comparator<SmartScene> {
 
 
-    private long _id = INVALID_ID;
     private String label;
     private int icon;
     private boolean enabled;
     private boolean active;
     private SceneTrigger sceneTrigger;
-    private List<SceneFonction> sceneFonctionList;
-
-    public long get_id() {
-        return _id;
-    }
-
-    public void set_id(long _id) {
-        this._id = _id;
-    }
+    private List<SceneFonction> sceneFonctionList = new ArrayList<SceneFonction>();
 
     public String getLabel() {
         return label;
@@ -97,106 +89,90 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
     }
 
     // Creates a default SmartScene at the current time.
-    public SmartScene() {}
+    public SmartScene() {
+    }
 
     public SmartScene(String label, boolean enabled) {
-        setId(String.valueOf(_id));
+        setId(INVALID_ID);
         this.label = label;
         this.active = this.enabled = enabled;
     }
 
     public SmartScene(String label, int icon, boolean enabled) {
-        setId(String.valueOf(_id));
+        setId(INVALID_ID);
         this.label = label;
         this.icon = icon;
         this.active = this.enabled = enabled;
     }
 
-    public SmartScene(long _id, String label, int icon, boolean enabled, boolean active) {
-        this._id = _id;
-        setId(String.valueOf(_id));
-        this.label = label;
-        this.icon = icon;
-        this.enabled = enabled;
-        this.active = active;
-    }
-
     public SmartScene(String label, boolean enabled, SceneTrigger sceneTrigger) {
-        setId(String.valueOf(_id));
+        setId(INVALID_ID);
         this.label = label;
         this.active = this.enabled = enabled;
         this.sceneTrigger = sceneTrigger;
     }
 
     public SmartScene(String label, boolean enabled, SceneTrigger sceneTrigger, List<SceneFonction> sceneFonctionList) {
-        setId(String.valueOf(_id));
+        setId(INVALID_ID);
         this.label = label;
         this.active = this.enabled = enabled;
         this.sceneTrigger = sceneTrigger;
         this.sceneFonctionList = sceneFonctionList;
     }
 
-    public SmartScene(Cursor c, Context context) {
-        _id = c.getLong(ID_INDEX);
-        setId(String.valueOf(_id));
+    public SmartScene(Cursor c) {
+        setId(c.getString(ID_INDEX));
         label = c.getString(LABEL_INDEX);
         icon = c.getInt(ICON_INDEX);
         enabled = c.getInt(ENABLED_INDEX) == 1;
         active = c.getInt(ACTIVE_INDEX) == 1;
-        sceneTrigger = (SceneTrigger) SmartSceneActivity.mApi.fromJson(c.getString(TRIGGERMODE_INDEX)).getData(0);
-//        SmartScene temp = new SmartScene(_id, label, icon, enabled, active);
-//        if (c.getInt(TRIGGERMODE_INDEX) == SceneTrigger.eTriggleMode.ALARM.ordinal()) {
-//
-//            sceneTrigger = SceneTrigger.create(temp, SceneTrigger.eTriggleMode.ALARM, context);
-//
-//            ((AlarmTrigger) sceneTrigger).setFrequency(AlarmTrigger.eFrequency.valueOf(c.getString(FREQUENCY_INDEX)));
-//            ((AlarmTrigger) sceneTrigger).setStartHour(c.getInt(STARTHOUR_INDEX));
-//            ((AlarmTrigger) sceneTrigger).setStartMinutes(c.getInt(STARTMINUTES_INDEX));
-//            ((AlarmTrigger) sceneTrigger).setEndHour(c.getInt(ENDHOUR_INDEX));
-//            ((AlarmTrigger) sceneTrigger).setEndMinutes(c.getInt(ENDMINUTES_INDEX));
-//        } else if (c.getInt(TRIGGERMODE_INDEX) == SceneTrigger.eTriggleMode.AP.ordinal()) {
-//            sceneTrigger = SceneTrigger.create(temp, SceneTrigger.eTriggleMode.AP, context);
-//        }
-        //sceneFonctionList = c.getString(FONCTIONLIST_INDEX);
-        sceneFonctionList = new ArrayList<SceneFonction>();
+        JSONApiObject jsonObject = SmartSceneActivity.mApi.fromJson(c.getString(TRIGGERMODE_INDEX));
+        if (jsonObject.getData().size() > 0) {
+            sceneTrigger = (SceneTrigger) jsonObject.getData(0);
+            sceneTrigger.setSmartScene(this);
+        }
+        JSONApiObject apiObject = SmartSceneActivity.mApi.fromJson(c.getString(FONCTIONLIST_INDEX));
+
+        if (apiObject.getData().size() > 1) {
+            for (Resource resource : apiObject.getData()) {
+                sceneFonctionList.add((SceneFonction) resource);
+            }
+        } else if (apiObject.getData().size() == 1) {
+            sceneFonctionList.add((SceneFonction) apiObject.getData(0));
+        }
+
     }
 
-    public static ContentValues createContentValues(SmartScene SmartScene) {
+    public static ContentValues createContentValues(SmartScene smartScene) {
         ContentValues values = new ContentValues(COLUMN_COUNT);
 
-        if (SmartScene._id != INVALID_ID) {
-            values.put(_ID, SmartScene._id);
+        if (!smartScene.getId().equals(INVALID_ID)) {
+            values.put(ID, smartScene.getId());
         }
-        values.put(ENABLED, SmartScene.enabled ? 1 : 0);
-        values.put(ICON, SmartScene.icon);
-        values.put(LABEL, SmartScene.label);
-        values.put(ACTIVE, SmartScene.enabled ? 1 : 0);
-        values.put(TRIGGERMODE, SmartScene.sceneTrigger.mTrigglerMode.ordinal());
-        if (SmartScene.sceneTrigger.mTrigglerMode.ordinal() == 0) {
-            values.put(FREQUENCY, ((AlarmTrigger) SmartScene.sceneTrigger).getFrequency().toString());
-            values.put(STARTHOUR, ((AlarmTrigger) SmartScene.sceneTrigger).getStartHour());
-            values.put(STARTMINUTES, ((AlarmTrigger) SmartScene.sceneTrigger).getStartMinutes());
-            values.put(ENDHOUR, ((AlarmTrigger) SmartScene.sceneTrigger).getEndHour());
-            values.put(ENDMINUTES, ((AlarmTrigger) SmartScene.sceneTrigger).getEndMinutes());
-        }
-        values.put(FONCTIONLIST, " ");
+        values.put(ENABLED, smartScene.enabled ? 1 : 0);
+        values.put(ICON, smartScene.icon);
+        values.put(LABEL, smartScene.label);
+        values.put(ACTIVE, smartScene.enabled ? 1 : 0);
+        values.put(TRIGGERMODE, SmartSceneActivity.mApi.toJson(smartScene.sceneTrigger));
+        values.put(FONCTIONLIST, SmartSceneActivity.mApi.toJson(smartScene.sceneFonctionList));
         return values;
     }
 
-    public static Intent createIntent(String action, long SmartSceneId) {
+    public static Intent createIntent(String action, String SmartSceneId) {
         return new Intent(action).setData(getUri(SmartSceneId));
     }
 
-    public static Intent createIntent(Context context, Class<?> cls, long SmartSceneId) {
+    public static Intent createIntent(Context context, Class<?> cls, String SmartSceneId) {
         return new Intent(context, cls).setData(getUri(SmartSceneId));
     }
 
-    public static Uri getUri(long SmartSceneId) {
-        return ContentUris.withAppendedId(CONTENT_URI, SmartSceneId);
+    public static Uri getUri(String smartSceneId) {
+        Integer integer = Integer.valueOf(smartSceneId);
+        return ContentUris.withAppendedId(CONTENT_URI, integer);
     }
 
-    public static long getId(Uri contentUri) {
-        return ContentUris.parseId(contentUri);
+    public static String getId(Uri contentUri) {
+        return String.valueOf(ContentUris.parseId(contentUri));
     }
 
     public static CursorLoader getSmartScenesCursorLoader(Context context) {
@@ -204,7 +180,7 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
                 QUERY_COLUMNS, null, null, DEFAULT_SORT_ORDER);
     }
 
-    public static SmartScene getSmartScene(ContentResolver contentResolver, long SmartSceneId, Context context) {
+    public static SmartScene getSmartScene(ContentResolver contentResolver, String SmartSceneId) {
         Cursor cursor = contentResolver.query(getUri(SmartSceneId), QUERY_COLUMNS, null, null, null);
         SmartScene result = null;
         if (cursor == null) {
@@ -212,7 +188,7 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
         }
         try {
             if (cursor.moveToFirst()) {
-                result = new SmartScene(cursor, context);
+                result = new SmartScene(cursor);
             }
         } finally {
             cursor.close();
@@ -220,8 +196,7 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
         return result;
     }
 
-    public static List<SmartScene> getSmartScenes(ContentResolver contentResolver, Context context,
-                                                  String selection, String... selectionArgs) {
+    public static List<SmartScene> getSmartScenes(ContentResolver contentResolver, String selection, String... selectionArgs) {
         Cursor cursor = contentResolver.query(CONTENT_URI, QUERY_COLUMNS,
                 selection, selectionArgs, null);
         List<SmartScene> result = new LinkedList<SmartScene>();
@@ -232,7 +207,7 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    result.add(new SmartScene(cursor, context));
+                    result.add(new SmartScene(cursor));
                 } while (cursor.moveToNext());
             }
         } finally {
@@ -244,40 +219,40 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
     public static SmartScene addSmartScene(ContentResolver contentResolver, SmartScene smartScene) {
         ContentValues values = createContentValues(smartScene);
         Uri uri = contentResolver.insert(CONTENT_URI, values);
-        smartScene._id = getId(uri);
+        smartScene.setId(getId(uri));
+        //smartScene.getSceneTrigger().setId(getId(uri));
         return smartScene;
     }
 
-    public static boolean updateSmartScene(ContentResolver contentResolver, SmartScene smartScene, Context context) {
-        if (smartScene._id == INVALID_ID) return false;
-        if (SmartScene.getSmartScene(contentResolver, smartScene._id, context) == null)
+    public static boolean updateSmartScene(ContentResolver contentResolver, SmartScene smartScene) {
+        if (smartScene.getId().equals(INVALID_ID)) return false;
+        if (SmartScene.getSmartScene(contentResolver, smartScene.getId()) == null)
             return false;
         ContentValues values = createContentValues(smartScene);
-        int updateRows = contentResolver.update(getUri(smartScene._id), values, null, null);
+        int updateRows = contentResolver.update(getUri(smartScene.getId()), values, null, null);
         return updateRows == 1;
     }
 
-    public static boolean deleteSmartScene(ContentResolver contentResolver, long smartSceneId) {
-        if (smartSceneId == INVALID_ID) return false;
+    public static boolean deleteSmartScene(ContentResolver contentResolver, String smartSceneId) {
+        if (smartSceneId.equals(INVALID_ID)) return false;
         int deleteRows = contentResolver.delete(getUri(smartSceneId), "", null);
         return deleteRows == 1;
     }
 
 
     public SmartScene(Parcel p) {
-        _id = p.readLong();
-        setId(String.valueOf(_id));
+        setId(p.readString());
         label = p.readString();
         icon = p.readInt();
         enabled = p.readInt() == 1;
         active = p.readInt() == 1;
-        //sceneTrigger = p.readParcelable();
-
-//        private int icon;
-//        private boolean enabled;
-//        private boolean active;
-//        private SceneTrigger sceneTrigger;
-//        private List<SceneFonction> sceneFonctionList;
+        sceneTrigger = (SceneTrigger) SmartSceneActivity.mApi.fromJson(p.readString()).getData(0);
+        List<Resource> resourceList = SmartSceneActivity.mApi.fromJson(p.readString()).getData();
+        if (resourceList.size() > 0) {
+            for (Resource resource : resourceList) {
+                sceneFonctionList.add((SceneFonction) resource);
+            }
+        }
     }
 
     public static final Parcelable.Creator<SmartScene> CREATOR = new Parcelable.Creator<SmartScene>() {
@@ -300,12 +275,13 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
     }
 
     public void writeToParcel(Parcel p, int flags) {
-        p.writeLong(_id);
+        p.writeString(getId());
         p.writeString(label);
         p.writeInt(icon);
         p.writeInt(enabled ? 1 : 0);
         p.writeInt(active ? 1 : 0);
-        //p.writeParcelable();
+        p.writeString(SmartSceneActivity.mApi.toJson(sceneTrigger));
+        p.writeString(SmartSceneActivity.mApi.toJson(sceneFonctionList));
     }
 
     public int describeContents() {
@@ -316,7 +292,7 @@ public class SmartScene extends Resource implements Parcelable, SmartSceneContra
     @Override
     public String toString() {
         return "SmartScene{" +
-                ", _id=" + _id +
+                ", _id=" + getId() +
                 ", enabled=" + enabled +
                 '}';
     }

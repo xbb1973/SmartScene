@@ -6,6 +6,7 @@
     <string name="scene_feature_key">scene_feature_key</string>
     <string name="alarm_title_key">alarm_title_key</string>
 
+    <string name="no_data">ERROR</string>
     <!--original strings-->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -23,6 +24,7 @@
     <string name="save">保存</string>
     <string name="new_scene">新建场景</string>
     <string name="WLAN">WLAN</string>
+    <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="edit_title">场景名称</string>
     <string name="split">~</string>

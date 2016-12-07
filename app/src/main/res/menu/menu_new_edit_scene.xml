@@ -3,14 +3,13 @@
     tools:context=".SmartSceneActivity">
 
     <item
-        android:id="@+id/menu_help"
+        android:id="@+id/menu_confirm"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/menu_help" />
+        android:showAsAction="ifRoom"
+        android:title="@string/confirm" />
     <item
-        android:id="@+id/menu_new"
+        android:id="@+id/menu_cancel"
         android:orderInCategory="102"
         android:showAsAction="ifRoom"
-        android:title="@string/new_scene" />
-
+        android:title="@string/cancel" />
 </menu>

@@ -22,29 +22,29 @@ public abstract class FonctionPreference {
     public static FonctionPreference create(SceneFonction sceneFonction) {
         Object o;
         switch (sceneFonction.mFonctionMode) {
-            case AUDIO_PROFILE:
+            case SceneFonction.AUDIO_PROFILE:
                 o = new AudioProfilePreference(sceneFonction);
                 break;
-            case AIRPLANE:
+            case SceneFonction.AIRPLANE:
                 o = new AirplanePreference(sceneFonction);
                 break;
-            case BLUE_TOOTH:
+            case SceneFonction.BLUE_TOOTH:
                 o = new BlueToothPreference(sceneFonction);
                 break;
-            case WLAN:
+            case SceneFonction.WLAN:
                 o = new WlanPreference(sceneFonction);
                 break;
-            case DATA_CONNECT:
+            case SceneFonction.DATA_CONNECT:
                 o = new DataConnectionPreference(sceneFonction);
                 break;
-            case BRIGHTNESS:
+            case SceneFonction.BRIGHTNESS:
                 o = new BrightnessPreference(sceneFonction);
                 break;
-            case APP:
-                o = new AppPreference(sceneFonction);
-                break;
-            case GPS:
+            case SceneFonction.GPS:
                 o = new GpsPreference(sceneFonction);
+                break;
+            case SceneFonction.APP:
+                o = new AppPreference(sceneFonction);
                 break;
             default:
                 o = null;

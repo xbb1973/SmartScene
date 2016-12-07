@@ -16,7 +16,15 @@ import android.widget.Toast;
 
 import com.gustavofao.jsonapi.JSONApiConverter;
 import com.gustavofao.jsonapi.Models.JSONApiObject;
+import com.xbb.fonction.AirplaneFonction;
+import com.xbb.fonction.AppFonction;
+import com.xbb.fonction.AudioProfileFonction;
+import com.xbb.fonction.BlueToothFonction;
+import com.xbb.fonction.BrightnessFonction;
+import com.xbb.fonction.DataConnectionFonction;
+import com.xbb.fonction.GpsFonction;
 import com.xbb.fonction.SceneFonction;
+import com.xbb.fonction.WlanFonction;
 import com.xbb.provider.Data;
 import com.xbb.provider.SceneDatabaseHelper;
 import com.xbb.provider.SmartScene;
@@ -38,22 +46,26 @@ import java.util.List;
 
 public class SmartSceneActivity extends Activity implements FakeSwitchPreferenceAdapter.CallBack {
 
-    public final static JSONApiConverter mApi = new JSONApiConverter(SmartScene.class, SceneTrigger.class, AlarmTrigger.class, APTrigger.class);;
+    public final static JSONApiConverter mApi =
+            new JSONApiConverter(SmartScene.class,
+                    SceneTrigger.class, AlarmTrigger.class, APTrigger.class,
+                    SceneFonction.class, AudioProfileFonction.class, AirplaneFonction.class, BlueToothFonction.class, WlanFonction.class,
+                    DataConnectionFonction.class, BrightnessFonction.class, GpsFonction.class, AppFonction.class);
 
-    protected ListView mListView;
-    protected TextView mEmpty;
-    protected Button mAdd;
-    protected Context mContext;
+    private ListView mListView;
+    private TextView mEmpty;
+    private Context mContext;
     private SparseArray<List<SmartScene>> mSmartSceneSparseArray;
     private SceneDatabaseHelper mSceneDatabaseHelper;
-    public ContentResolver mContentResolver;
-    public FakeSwitchPreferenceAdapter mListAdapter;
+    private ContentResolver mContentResolver;
+    private FakeSwitchPreferenceAdapter mListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initData();
         initView();
+        initListener();
     }
 
     protected void initData() {
@@ -62,41 +74,25 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
         mContentResolver = getContentResolver();
         mContext = getApplicationContext();
 
-        List<SmartScene> smartSceneList = SmartScene.getSmartScenes(mContentResolver, mContext, null, null);
+
+        //analysis database , translate data into list<smartsce>
+        List<SmartScene> smartSceneList = SmartScene.getSmartScenes(mContentResolver, null);
         List<SmartScene> alarm = new ArrayList<SmartScene>();
         List<SmartScene> ap = new ArrayList<SmartScene>();
 
         for (int i = 0; i < smartSceneList.size(); i++) {
-            String json = mApi.toJson(smartSceneList.get(i));
-            LogUtils.e("" + json);
-
-            JSONApiObject jsonApiObject = mApi.fromJson(json);
-            SmartScene smartScene = new SmartScene();
-            if (jsonApiObject.getData().size() > 0) {
-                smartScene = (SmartScene) jsonApiObject.getData(0);
-                LogUtils.e("" + mApi.toJson(smartScene));
-            } else
-                LogUtils.e("fail");
-
-            JSONApiObject jsonApiObject1 = mApi.fromJson(mApi.toJson(smartScene));
-
-            if (jsonApiObject1.getData().size() > 0) {
-                smartScene = (SmartScene) jsonApiObject1.getData(0);
-                LogUtils.e("" + mApi.toJson(smartScene));
-            } else
-                LogUtils.e("fail");
-
-            if (smartSceneList.get(i).getSceneTrigger().mTrigglerMode == SceneTrigger.eTriggleMode.ALARM) {
+            SmartScene smartScene = smartSceneList.get(i);
+            if (smartScene.getSceneTrigger().mTrigglerMode == (SceneTrigger.ALARM)) {
                 alarm.add(smartSceneList.get(i));
-            } else if (smartSceneList.get(i).getSceneTrigger().mTrigglerMode == SceneTrigger.eTriggleMode.AP) {
+            } else if (smartScene.getSceneTrigger().mTrigglerMode == (SceneTrigger.AP)) {
                 ap.add(smartSceneList.get(i));
             }
         }
 
         if (alarm.size() > 0)
-            mSmartSceneSparseArray.put(SceneTrigger.eTriggleMode.ALARM.ordinal(), alarm);
+            mSmartSceneSparseArray.put(SceneTrigger.ALARM, alarm);
         if (ap.size() > 0)
-            mSmartSceneSparseArray.put(SceneTrigger.eTriggleMode.AP.ordinal(), ap);
+            mSmartSceneSparseArray.put(SceneTrigger.AP, ap);
     }
 
 
@@ -112,6 +108,8 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
         }
     }
 
+    protected void initListener() {
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -142,7 +140,6 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
     }
 

@@ -27,11 +27,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.gustavofao.jsonapi.JSONApiConverter;
 import com.xbb.fonction.SceneFonction;
 import com.xbb.smartscene.R;
 import com.xbb.smartscene.SmartSceneActivity;
-import com.xbb.triggler.APTrigger;
 import com.xbb.triggler.AlarmTrigger;
 import com.xbb.triggler.SceneTrigger;
 import com.xbb.util.LogUtils;
@@ -66,19 +64,13 @@ public class SceneDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + SCENES_TABLE_NAME + " (" +
                 /*main*/
-                SmartSceneContract.SmartSceneColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SmartSceneContract.SmartSceneColumns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 SmartSceneContract.SmartSceneColumns.LABEL + " TEXT NOT NULL, " +
                 SmartSceneContract.SmartSceneColumns.ICON + " TEXT NOT NULL, " +
                 SmartSceneContract.SmartSceneColumns.ENABLED + " INTEGER NOT NULL, " +
                 SmartSceneContract.SmartSceneColumns.ACTIVE + " INTEGER NOT NULL, " +
                 /*trrigle*/
-                SmartSceneContract.SmartSceneColumns.TRIGGERMODE + " TEXT NOT NULL, " +
-//                SmartSceneContract.SmartSceneColumns.TRIGGERMODE + " INTEGER NOT NULL, " +
-//                SmartSceneContract.SmartSceneColumns.FREQUENCY + " INTEGER, " +
-//                SmartSceneContract.SmartSceneColumns.STARTHOUR + " INTEGER, " +
-//                SmartSceneContract.SmartSceneColumns.STARTMINUTES + " INTEGER, " +
-//                SmartSceneContract.SmartSceneColumns.ENDHOUR + " INTEGER, " +
-//                SmartSceneContract.SmartSceneColumns.ENDMINUTES + " INTEGER, " +
+                SmartSceneContract.SmartSceneColumns.TRIGGERMODE + " TEXT, " +
                 /*list*/
                 SmartSceneContract.SmartSceneColumns.FONCTIONLIST + " TEXT);");
 
@@ -100,39 +92,41 @@ public class SceneDatabaseHelper extends SQLiteOpenHelper {
 
 
     private void initDefaultData(SQLiteDatabase db) {
-        SmartScene defaltS1 = new SmartScene("工作日", R.drawable.icon_pre_4, false);
-        AlarmTrigger sceneTrigglerAlarm = new AlarmTrigger(12, 0, 14, 0, AlarmTrigger.eFrequency.ONCE);
-        defaltS1.setSceneTrigger(sceneTrigglerAlarm);
-        List<SceneFonction> sceneFonctionList = new ArrayList<SceneFonction>();
-        sceneFonctionList.add(SceneFonction.create(defaltS1, SceneFonction.eFonctionMode.BRIGHTNESS));
-        defaltS1.setSceneFonctionList(sceneFonctionList);
+        SmartScene DFS1 = new SmartScene("工作日", R.drawable.icon_pre_4, false);
+        DFS1.setId("1");
+        SceneTrigger sceneTrigglerAlarm1 = SceneTrigger.create(DFS1, SceneTrigger.ALARM);
+        ((AlarmTrigger) sceneTrigglerAlarm1).setOther(AlarmTrigger.ONCE, 12, 0, 14, 0);
+        DFS1.setSceneTrigger(sceneTrigglerAlarm1);
 
-        SmartScene defaltS2 = new SmartScene("周末", R.drawable.icon_pre_4, false);
-        AlarmTrigger sceneTrigglerAlarm2 = new AlarmTrigger(14, 0, 16, 0, AlarmTrigger.eFrequency.EVERYDAY);
-        defaltS2.setSceneTrigger(sceneTrigglerAlarm2);
-        defaltS2.setSceneFonctionList(sceneFonctionList);
+        List<SceneFonction> sceneFonctionList = new ArrayList<SceneFonction>();
+        sceneFonctionList.add(SceneFonction.create(DFS1, SceneFonction.BRIGHTNESS));
+        DFS1.setSceneFonctionList(sceneFonctionList);
+
+        SmartScene DFS2 = new SmartScene("周末", R.drawable.icon_pre_4, false);
+        DFS1.setId("2");
+        SceneTrigger sceneTrigglerAlarm2 = SceneTrigger.create(DFS1, SceneTrigger.ALARM);
+        ((AlarmTrigger) sceneTrigglerAlarm2).setOther(AlarmTrigger.EVERYDAY, 14, 0, 16, 0);
+        DFS2.setSceneTrigger(sceneTrigglerAlarm2);
+
+        sceneFonctionList = new ArrayList<SceneFonction>();
+        sceneFonctionList.add(SceneFonction.create(DFS2, SceneFonction.BRIGHTNESS));
+        sceneFonctionList.add(SceneFonction.create(DFS2, SceneFonction.AIRPLANE));
+        DFS2.setSceneFonctionList(sceneFonctionList);
 
         SmartScene office = new SmartScene("工作室", R.drawable.icon_pre_1, false);
-        office.setSceneTrigger(SceneTrigger.create(office, SceneTrigger.eTriggleMode.AP, mContext));
+        office.setId("3");
+        office.setSceneTrigger(SceneTrigger.create(office, SceneTrigger.AP));
 
         SmartScene office1 = new SmartScene("工作室1", R.drawable.icon_pre_3, false);
-        office1.setSceneTrigger(SceneTrigger.create(office1, SceneTrigger.eTriggleMode.AP, mContext));
+        office1.setId("4");
+        office1.setSceneTrigger(SceneTrigger.create(office1, SceneTrigger.AP));
 
-        SmartScene office2 = new SmartScene("工作室2", R.drawable.icon_pre_2, false);
-        office2.setSceneTrigger(SceneTrigger.create(office2, SceneTrigger.eTriggleMode.AP, mContext));
 
-        SmartScene office3 = new SmartScene("工作室3", R.drawable.icon_pre_1, false);
-        office3.setSceneTrigger(SceneTrigger.create(office3, SceneTrigger.eTriggleMode.AP, mContext));
-
-        insert(db, defaltS1);
-        insert(db, defaltS2);
+        insert(db, DFS1);
+        insert(db, DFS2);
         insert(db, office);
         insert(db, office1);
-        insert(db, office2);
-        insert(db, office3);
     }
-
-
 
     public long insert(SQLiteDatabase db, SmartScene smartScene) {
         ContentValues contentValues = new ContentValues();
@@ -140,25 +134,19 @@ public class SceneDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SmartSceneContract.SmartSceneColumns.ICON, smartScene.getIcon());
         contentValues.put(SmartSceneContract.SmartSceneColumns.ENABLED, smartScene.isEnabled());
         contentValues.put(SmartSceneContract.SmartSceneColumns.ACTIVE, smartScene.isActive());
-        contentValues.put(SmartSceneContract.SmartSceneColumns.TRIGGERMODE, SmartSceneActivity.mApi.toJson(smartScene.getSceneTrigger()));
-//        contentValues.put(SmartSceneContract.SmartSceneColumns.TRIGGERMODE, smartScene.getSceneTrigger().mTrigglerMode.ordinal());
-//        if (smartScene.getSceneTrigger().mTrigglerMode.ordinal() == 0) {
-//            contentValues.put(SmartSceneContract.SmartSceneColumns.FREQUENCY, ((AlarmTrigger) smartScene.getSceneTrigger()).getFrequency().toString());
-//            contentValues.put(SmartSceneContract.SmartSceneColumns.STARTHOUR, ((AlarmTrigger) smartScene.getSceneTrigger()).getStartHour());
-//            contentValues.put(SmartSceneContract.SmartSceneColumns.STARTMINUTES, ((AlarmTrigger) smartScene.getSceneTrigger()).getStartMinutes());
-//            contentValues.put(SmartSceneContract.SmartSceneColumns.ENDHOUR, ((AlarmTrigger) smartScene.getSceneTrigger()).getEndHour());
-//            contentValues.put(SmartSceneContract.SmartSceneColumns.ENDMINUTES, ((AlarmTrigger) smartScene.getSceneTrigger()).getEndMinutes());
-//        }
-        return db.insert(SCENES_TABLE_NAME, SmartScene._ID, contentValues);
+        if (smartScene.getSceneTrigger() != null)
+            contentValues.put(SmartSceneContract.SmartSceneColumns.TRIGGERMODE, SmartSceneActivity.mApi.toJson(smartScene.getSceneTrigger()));
+        if (smartScene.getSceneFonctionList() != null)
+            contentValues.put(SmartSceneContract.SmartSceneColumns.FONCTIONLIST, SmartSceneActivity.mApi.toJson(smartScene.getSceneFonctionList()));
+
+        return insert(db, contentValues);
     }
 
     public long insert(SQLiteDatabase db, ContentValues contentValues) {
-        return db.insert(SCENES_TABLE_NAME, SmartScene._ID, contentValues);
+        return db.insert(SCENES_TABLE_NAME, SmartScene.ID, contentValues);
     }
 
-
-
-    //check ALARM_COUNTS is Exist
+    //check ALARM_COUNTS is Exist`
     private boolean checkColumnExist1(SQLiteDatabase db, String tableName,
                                       String columnName) {
         boolean result = false;

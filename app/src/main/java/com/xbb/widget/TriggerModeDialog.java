@@ -15,6 +15,7 @@ import com.xbb.smartscene.R;
 import com.xbb.smartscene.SceneSettingActivity;
 import com.xbb.triggler.APTrigger;
 import com.xbb.triggler.AlarmTrigger;
+import com.xbb.triggler.SceneTrigger;
 import com.xbb.util.LogUtils;
 
 import java.util.ArrayList;
@@ -27,6 +28,20 @@ public class TriggerModeDialog extends DialogFragment {
 
     Context context;
     List<SmartScene> smartSceneList;
+    Callback callback;
+
+    List<SceneFonction> sceneFonctionList;
+
+    FonctionListAdapter fonctionListAdapter;
+    FakeRadioPreferenceAdapter fakeRadioPreferenceAdapter;
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
 
     public List<SceneFonction> getSceneFonctionList() {
         return sceneFonctionList;
@@ -44,11 +59,6 @@ public class TriggerModeDialog extends DialogFragment {
         this.smartSceneList = smartSceneList;
     }
 
-    List<SceneFonction> sceneFonctionList;
-
-    FonctionListAdapter fonctionListAdapter;
-    FakeRadioPreferenceAdapter fakeRadioPreferenceAdapter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +71,16 @@ public class TriggerModeDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 
-        if (sceneFonctionList.size() > 0) {
-            LogUtils.e(">0");
+        if (sceneFonctionList != null && sceneFonctionList.size() > 0) {
             builder.setTitle(R.string.scene_feature);
             fonctionListAdapter = new FonctionListAdapter(context, sceneFonctionList, 1);
-            builder.setSingleChoiceItems(fonctionListAdapter, -1, null);
+            builder.setSingleChoiceItems(fonctionListAdapter, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    callback.onDialogItemClick(i);
+                }
+            });
+
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -75,7 +90,6 @@ public class TriggerModeDialog extends DialogFragment {
             });
 
         } else {
-            LogUtils.e("<0");
             builder.setTitle(R.string.trigger_select_title);
             fakeRadioPreferenceAdapter = new FakeRadioPreferenceAdapter(context, smartSceneList);
             builder.setSingleChoiceItems(fakeRadioPreferenceAdapter, -1, null);
@@ -88,20 +102,18 @@ public class TriggerModeDialog extends DialogFragment {
             builder.setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    SmartScene s = fakeRadioPreferenceAdapter.getEnableTrigger();
+
                     //do sth
                     Intent intent = new Intent(context, SceneSettingActivity.class);
+                    intent.putExtra(SceneTrigger.TRIGGERMODE, fakeRadioPreferenceAdapter.getMode());
                     startActivityForResult(intent, 1);
                     Toast.makeText(context, "next", Toast.LENGTH_LONG).show();
 
                 }
             });
         }
-
-
         return builder.create();
     }
-
 
 
     @Override
@@ -114,15 +126,19 @@ public class TriggerModeDialog extends DialogFragment {
         if (sceneFonctionList == null)
             sceneFonctionList = new ArrayList<SceneFonction>();
 
-        SmartScene alarm = new SmartScene("defaultS1", false);
-        alarm.setSceneTrigger(new AlarmTrigger(alarm));
-        SmartScene ap = new SmartScene("defaultS3", false);
-        ap.setSceneTrigger(new APTrigger(ap));
+        SmartScene alarm = new SmartScene(String.valueOf(SceneTrigger.ALARM), false);
+        alarm.setSceneTrigger(SceneTrigger.create(alarm, SceneTrigger.ALARM));
+
+        SmartScene ap = new SmartScene(String.valueOf(SceneTrigger.AP), false);
+        ap.setSceneTrigger(SceneTrigger.create(alarm, SceneTrigger.AP));
         smartSceneList = new ArrayList<SmartScene>();
         smartSceneList.add(alarm);
         smartSceneList.add(ap);
 
     }
 
+    interface Callback {
+        void onDialogItemClick(int position);
+    }
 }
 

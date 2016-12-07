@@ -2,19 +2,37 @@ package com.xbb.fonction;
 
 import android.content.Context;
 
+import com.gustavofao.jsonapi.Annotations.Excluded;
+import com.gustavofao.jsonapi.Annotations.Type;
 import com.xbb.provider.SmartScene;
 import com.xbb.smartscene.R;
 /**
  * Created by HongYilin 16-11-21 下午4:51
  */
+@Type("brightness")
 public class BrightnessFonction extends SceneFonction {
 
-    public static int BrightnessLeve[] = new int[]{30, 140, 255};
+    @Excluded
+    final public static int BRIGHTNESS_DARK = 30;
+    @Excluded
+    final public static int BRIGHTNESS_NORMAL = 140;
+    @Excluded
+    final public static int BRIGHTNESS_BRIGHT = 255;
 
-    private eBrightnessLevel mBrightnessLevel = eBrightnessLevel.BRIGHTNESS_DARK;
+    private int mBrightnessLevel;
 
+    public BrightnessFonction() {}
     public BrightnessFonction(SmartScene smartScene) {
-        super(eFonctionMode.BRIGHTNESS);
+        super(SceneFonction.BRIGHTNESS);
+        mBrightnessLevel = BRIGHTNESS_DARK;
+    }
+
+    public int getmBrightnessLevel() {
+        return mBrightnessLevel;
+    }
+
+    public void setmBrightnessLevel(int mBrightnessLevel) {
+        this.mBrightnessLevel = mBrightnessLevel;
     }
 
     @Override
@@ -36,11 +54,4 @@ public class BrightnessFonction extends SceneFonction {
         return false;
     }
 
-    public static enum eBrightnessLevel {
-        /*30 140 255*/
-        BRIGHTNESS_DARK,
-        BRIGHTNESS_NORMAL,
-        BRIGHTNESS_BRIGHT;
-
-    }
 }
