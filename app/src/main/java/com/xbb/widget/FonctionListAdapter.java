@@ -66,6 +66,14 @@ public class FonctionListAdapter extends BaseAdapter {
             viewHolder.summary = (TextView) view.findViewById(android.R.id.summary);
             viewHolder.enable = (Switch) view.findViewById(R.id.scene_enabled);
             fillViewHolder(i);
+//
+//            viewHolder.textLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//
+//                }
+//            });
+
             return view;
         }
         return null;

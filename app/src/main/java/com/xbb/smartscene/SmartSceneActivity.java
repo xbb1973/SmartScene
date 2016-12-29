@@ -9,13 +9,11 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gustavofao.jsonapi.JSONApiConverter;
-import com.gustavofao.jsonapi.Models.JSONApiObject;
 import com.xbb.fonction.AirplaneFonction;
 import com.xbb.fonction.AppFonction;
 import com.xbb.fonction.AudioProfileFonction;
@@ -25,7 +23,6 @@ import com.xbb.fonction.DataConnectionFonction;
 import com.xbb.fonction.GpsFonction;
 import com.xbb.fonction.SceneFonction;
 import com.xbb.fonction.WlanFonction;
-import com.xbb.provider.Data;
 import com.xbb.provider.SceneDatabaseHelper;
 import com.xbb.provider.SmartScene;
 import com.xbb.triggler.APTrigger;
@@ -35,7 +32,6 @@ import com.xbb.util.LogUtils;
 import com.xbb.util.Utils;
 import com.xbb.widget.FakeSwitchPreferenceAdapter;
 
-import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +55,14 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
     private SceneDatabaseHelper mSceneDatabaseHelper;
     private ContentResolver mContentResolver;
     private FakeSwitchPreferenceAdapter mListAdapter;
+
+    public static int REQUEST_CODE_ = 0;
+    public static int RESULT_CODE_ALARM = 1;
+    public static int RESULT_CODE_AP = RESULT_CODE_ALARM + 1;
+
+    List<SmartScene> smartSceneList;
+    List<SmartScene> alarm;
+    List<SmartScene> ap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +152,7 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
         LogUtils.e("callback111");
         Intent intent = new Intent(mContext, SceneSettingActivity.class);
         intent.putExtra(SmartScene.SMARTSCENE, mListAdapter.getItem(position));
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_);
     }
 
     @Override
@@ -158,6 +162,24 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+        LogUtils.e("here----------------------------" + requestCode + resultCode);
+        if (resultCode == RESULT_OK || requestCode == RESULT_OK) {
+            LogUtils.e("here0-----------------------");
+            if (data.getIntExtra(SmartScene.TRIGGERMODE, -1) == SceneTrigger.ALARM) {
+                mSmartSceneSparseArray.remove(SceneTrigger.ALARM);
+                alarm.add(SmartScene.getSmartScene(getContentResolver(), data.getStringExtra(SmartScene.ID)));
+                mSmartSceneSparseArray.put(SceneTrigger.ALARM, alarm);
+                LogUtils.e("here1");
+            } else if (data.getIntExtra(SmartScene.TRIGGERMODE, -1) == SceneTrigger.AP) {
+                mSmartSceneSparseArray.remove(SceneTrigger.AP);
+                ap.add(SmartScene.getSmartScene(getContentResolver(), data.getStringExtra(SmartScene.ID)));
+                mSmartSceneSparseArray.put(SceneTrigger.AP, ap);
+                LogUtils.e("here2");
+            }
+
+            mListAdapter = new FakeSwitchPreferenceAdapter(mContext, mSmartSceneSparseArray);
+            mListView.setAdapter(mListAdapter);
+        }
     }
 }

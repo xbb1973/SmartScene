@@ -12,6 +12,7 @@ import com.xbb.provider.SmartScene;
 public class AppFonction extends SceneFonction {
 
     public AppFonction() {}
+
     public AppFonction(SmartScene smartScene) {
         super(SceneFonction.APP);
     }

@@ -31,7 +31,6 @@ import java.util.List;
 @Type("smartscenes")
 public class SmartScene extends Resource implements Parcelable, SmartSceneContract.SmartSceneColumns, Comparator<SmartScene> {
 
-
     private String label;
     private int icon;
     private boolean enabled;

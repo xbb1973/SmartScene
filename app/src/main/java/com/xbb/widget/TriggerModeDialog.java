@@ -70,14 +70,15 @@ public class TriggerModeDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-
         if (sceneFonctionList != null && sceneFonctionList.size() > 0) {
             builder.setTitle(R.string.scene_feature);
             fonctionListAdapter = new FonctionListAdapter(context, sceneFonctionList, 1);
             builder.setSingleChoiceItems(fonctionListAdapter, -1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    LogUtils.e("i = " + i);
                     callback.onDialogItemClick(i);
+                    dismiss();
                 }
             });
 
@@ -137,7 +138,7 @@ public class TriggerModeDialog extends DialogFragment {
 
     }
 
-    interface Callback {
+    public interface Callback {
         void onDialogItemClick(int position);
     }
 }

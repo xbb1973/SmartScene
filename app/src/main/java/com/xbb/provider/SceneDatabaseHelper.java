@@ -121,7 +121,10 @@ public class SceneDatabaseHelper extends SQLiteOpenHelper {
         office1.setId("4");
         office1.setSceneTrigger(SceneTrigger.create(office1, SceneTrigger.AP));
 
+        insertDefaultData(db, DFS1, DFS2, office, office1);
+    }
 
+    private void insertDefaultData(SQLiteDatabase db, SmartScene DFS1, SmartScene DFS2, SmartScene office, SmartScene office1) {
         insert(db, DFS1);
         insert(db, DFS2);
         insert(db, office);
