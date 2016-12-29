@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.xbb.triggler.SceneTrigger;
 import com.xbb.util.LogUtils;
 import com.xbb.util.Utils;
 import com.xbb.widget.FonctionListAdapter;
+import com.xbb.widget.TriggerModeDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,8 @@ public class SceneSettingActivity extends Activity {
     private int mMode;
     private SmartScene mSmartScene;
     private List<SceneFonction> mSceneFonctionList;
-
+    private List<SceneFonction> mRestSceneFonctionList;
+    private FonctionListAdapter mFonctionListAdapter;
     private ListView mListView;
     private TextView mEmpty;
     private Button mAdd;
@@ -51,6 +54,27 @@ public class SceneSettingActivity extends Activity {
     private ImageView mIcon;
     private EditText mLabel;
 
+    private TriggerModeDialog.Callback callback = new TriggerModeDialog.Callback() {
+        @Override
+        public void onDialogItemClick(int position) {
+
+            //logic wrong think a way out
+            mSceneFonctionList.add(mRestSceneFonctionList.get(position));
+            mRestSceneFonctionList = getOhterFonctions(mSceneFonctionList);
+            refreshListView();
+        }
+    };
+
+    private void refreshListView() {
+
+        if (mSceneFonctionList.size() > 0) {
+            mFonctionListAdapter = new FonctionListAdapter(mContext, mSceneFonctionList);
+            mListView.setAdapter(mFonctionListAdapter);
+            mEmpty.setVisibility(View.GONE);
+        } else {
+            mEmpty.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +87,6 @@ public class SceneSettingActivity extends Activity {
     private void initData() {
         mContext = getApplicationContext();
         mMode = getIntent().getIntExtra(SceneTrigger.TRIGGERMODE, -1);
-        LogUtils.e("" + mMode);
         if (mMode == -1) {
             setTitle(getResources().getString(R.string.scene_edit));
             mSmartScene = getIntent().getParcelableExtra(SmartScene.SMARTSCENE);
@@ -79,6 +102,7 @@ public class SceneSettingActivity extends Activity {
             }
         }
         mSceneFonctionList = mSmartScene.getSceneFonctionList();
+        mRestSceneFonctionList = getOhterFonctions(mSceneFonctionList);
         fillView();
     }
 
@@ -90,14 +114,7 @@ public class SceneSettingActivity extends Activity {
         mTriggerIcon.setImageDrawable(mSmartScene.getSceneTrigger().getIcon(mContext));
         mTriggerTitle.setText(mSmartScene.getSceneTrigger().getTitle(mContext));
         mTriggerSummary.setText(mSmartScene.getSceneTrigger().getInfo(mContext));
-
-        if (mSceneFonctionList.size() > 0) {
-            FonctionListAdapter fonctionListAdapter = new FonctionListAdapter(mContext, mSceneFonctionList);
-            mListView.setAdapter(fonctionListAdapter);
-            mEmpty.setVisibility(View.GONE);
-        } else {
-            mEmpty.setVisibility(View.VISIBLE);
-        }
+        refreshListView();
     }
 
     private void initView() {
@@ -137,7 +154,14 @@ public class SceneSettingActivity extends Activity {
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.showTimeEditDialog(getFragmentManager(), getOhterFonctions(mSceneFonctionList));
+                Utils.showTimeEditDialog(getFragmentManager(), mRestSceneFonctionList, callback);
+            }
+        });
+        mListView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(mContext, "longclick", Toast.LENGTH_LONG).show();
+                return false;
             }
         });
     }
@@ -152,8 +176,13 @@ public class SceneSettingActivity extends Activity {
         DEFAULT_LIST.add(SceneFonction.create(new SmartScene(), SceneFonction.BRIGHTNESS));
         DEFAULT_LIST.add(SceneFonction.create(new SmartScene(), SceneFonction.GPS));
         DEFAULT_LIST.add(SceneFonction.create(new SmartScene(), SceneFonction.APP));
+
+        //may cost too much time, need upgrade
         for (SceneFonction sceneFonction : mSceneFonctionList) {
-            DEFAULT_LIST.remove(sceneFonction.mFonctionMode);
+            for (int i = 0; i < DEFAULT_LIST.size(); i++)
+                if (sceneFonction.mFonctionMode == DEFAULT_LIST.get(i).mFonctionMode){
+                    DEFAULT_LIST.remove(i);
+                }
         }
         return DEFAULT_LIST;
     }
@@ -175,14 +204,23 @@ public class SceneSettingActivity extends Activity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.menu_confirm:
-                Toast.makeText(this.mContext, "confirm", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "confirm", Toast.LENGTH_LONG).show();
+
+                mSmartScene.setLabel(mLabel.getText().toString());
+                mSmartScene.setSceneFonctionList(mSceneFonctionList);
+                //mSmartScene.setSceneTrigger();
+
                 mSmartScene = SmartScene.addSmartScene(getContentResolver(), mSmartScene);
                 SmartScene.updateSmartScene(getContentResolver(), mSmartScene);
-                setResult(1);
+                Intent intent = new Intent();
+                intent.putExtra(SmartScene.TRIGGERMODE, mSmartScene.getSceneTrigger().mTrigglerMode);
+                intent.putExtra(SmartScene.ID, mSmartScene.getId());
+                setResult(RESULT_OK, intent);
+
                 finish();
                 return true;
             case R.id.menu_cancel:
-                Toast.makeText(this.mContext, "cancel", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "cancel", Toast.LENGTH_LONG).show();
                 finish();
                 return true;
             default:

@@ -31,9 +31,10 @@ public class Utils {
         triggerModeDialog.show(manager, "TriggerModeDialog");
     }
 
-    public static void showTimeEditDialog(FragmentManager manager, List<SceneFonction> sceneFonctionList) {
+    public static void showTimeEditDialog(FragmentManager manager, List<SceneFonction> sceneFonctionList, TriggerModeDialog.Callback callback) {
 
         TriggerModeDialog triggerModeDialog = new TriggerModeDialog();
+        triggerModeDialog.setCallback(callback);
         triggerModeDialog.setSceneFonctionList(sceneFonctionList);
         // Make sure the dialog isn't already added.
         manager.executePendingTransactions();
