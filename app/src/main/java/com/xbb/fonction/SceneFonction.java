@@ -34,7 +34,8 @@ public abstract class SceneFonction extends Resource {
 
     public int mFonctionMode;
 
-    protected SceneFonction() {}
+    protected SceneFonction() {
+    }
 
     protected SceneFonction(int fonctionMode) {
         this.mFonctionMode = fonctionMode;
@@ -43,6 +44,10 @@ public abstract class SceneFonction extends Resource {
     public abstract String getInfo(Context context);
 
     public abstract boolean getInfo();
+
+    public abstract boolean active(Context context);
+
+    public abstract boolean inactive(Context context);
 
     public static SceneFonction create(SmartScene smartScene, int fonctionMode) {
         Object o;

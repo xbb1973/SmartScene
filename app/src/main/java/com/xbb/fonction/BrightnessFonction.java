@@ -1,6 +1,7 @@
 package com.xbb.fonction;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.gustavofao.jsonapi.Annotations.Excluded;
 import com.gustavofao.jsonapi.Annotations.Type;
@@ -18,6 +19,8 @@ public class BrightnessFonction extends SceneFonction {
     final public static int BRIGHTNESS_NORMAL = 140;
     @Excluded
     final public static int BRIGHTNESS_BRIGHT = 255;
+    @Excluded
+    private int mOriginalBrightLevel;
 
     private int mBrightnessLevel;
 
@@ -51,7 +54,21 @@ public class BrightnessFonction extends SceneFonction {
 
     @Override
     public boolean getInfo() {
+
         return false;
+    }
+
+    @Override
+    public boolean active(Context context) {
+        mOriginalBrightLevel = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, mBrightnessLevel);
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, mBrightnessLevel);
+        return true;
+    }
+
+    @Override
+    public boolean inactive(Context context) {
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, mOriginalBrightLevel);
+        return true;
     }
 
 }

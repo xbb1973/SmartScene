@@ -35,4 +35,14 @@ public class APTrigger extends SceneTrigger {
         return context.getResources().getString(R.string.no_bundle_ap);
     }
 
+    @Override
+    public long getStartTime() {
+        return 0;
+    }
+
+    @Override
+    public long getEndTime() {
+        return 0;
+    }
+
 }
