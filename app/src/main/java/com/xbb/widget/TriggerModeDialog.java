@@ -103,13 +103,12 @@ public class TriggerModeDialog extends DialogFragment {
             builder.setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                    //change to send a message, add note by hongyilin
                     //do sth
                     Intent intent = new Intent(context, SceneSettingActivity.class);
                     intent.putExtra(SceneTrigger.TRIGGERMODE, fakeRadioPreferenceAdapter.getMode());
                     startActivityForResult(intent, 1);
                     Toast.makeText(context, "next", Toast.LENGTH_LONG).show();
-
                 }
             });
         }

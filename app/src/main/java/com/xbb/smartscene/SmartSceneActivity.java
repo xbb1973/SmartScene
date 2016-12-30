@@ -1,6 +1,8 @@
 package com.xbb.smartscene;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +35,7 @@ import com.xbb.util.Utils;
 import com.xbb.widget.FakeSwitchPreferenceAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -77,12 +80,10 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
         mSmartSceneSparseArray = new SparseArray<List<SmartScene>>();
         mContentResolver = getContentResolver();
         mContext = getApplicationContext();
-
-
         //analysis database , translate data into list<smartsce>
-        List<SmartScene> smartSceneList = SmartScene.getSmartScenes(mContentResolver, null);
-        List<SmartScene> alarm = new ArrayList<SmartScene>();
-        List<SmartScene> ap = new ArrayList<SmartScene>();
+        smartSceneList = SmartScene.getSmartScenes(mContentResolver, null);
+        alarm = new ArrayList<SmartScene>();
+        ap = new ArrayList<SmartScene>();
 
         for (int i = 0; i < smartSceneList.size(); i++) {
             SmartScene smartScene = smartSceneList.get(i);
@@ -158,6 +159,28 @@ public class SmartSceneActivity extends Activity implements FakeSwitchPreference
     @Override
     public void onSwitchClick(int postion) {
         LogUtils.e("callback222");
+        final Intent intent = new Intent();
+        // Treat alarm state change as high priority, use foreground broadcasts
+        intent.setAction("start");
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, mListAdapter.getItem(postion).hashCode(),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        long i = mListAdapter.getItem(postion).getSceneTrigger().getStartTime() - calendar.getTimeInMillis();
+        calendar.add(Calendar.SECOND, (int) i);
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        final Intent intentE = new Intent();
+        // Treat alarm state change as high priority, use foreground broadcasts
+        intentE.setAction("end");
+        intentE.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent pendingIntentE = PendingIntent.getBroadcast(mContext, mListAdapter.getItem(postion).hashCode(),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.set(AlarmManager.RTC_WAKEUP, mListAdapter.getItem(postion).getSceneTrigger().getEndTime() - calendar.getTimeInMillis() , pendingIntentE);
     }
 
     @Override

@@ -40,6 +40,8 @@ public abstract class SceneTrigger extends Resource implements Parcelable {
     public abstract String getTitle(Context context);
     public abstract Drawable getIcon(Context context);
     public abstract String getInfo(Context context);
+    public abstract long getStartTime();
+    public abstract long getEndTime();
 
     public SceneTrigger() {}
 

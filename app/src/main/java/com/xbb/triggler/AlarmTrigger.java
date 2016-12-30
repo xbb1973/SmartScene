@@ -10,6 +10,8 @@ import com.gustavofao.jsonapi.Annotations.Type;
 import com.xbb.provider.SmartScene;
 import com.xbb.smartscene.R;
 
+import java.util.Calendar;
+
 /**
  * Created by HongYilin 16-11-22 下午10:11
  */
@@ -118,6 +120,20 @@ public class AlarmTrigger extends SceneTrigger implements Parcelable {
     public String getInfo(Context context) {
         String s = getFrequency(context) + "  " + startHour + ":" + startMinutes + "---" + endHour + ":" + endMinutes;
         return s;
+    }
+
+    @Override
+    public long getStartTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(startHour * 3600 + startMinutes * 60);
+        return calendar.getTimeInMillis();
+    }
+
+    @Override
+    public long getEndTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(endHour * 3600 + endMinutes * 60);
+        return calendar.getTimeInMillis();
     }
 
     // =============================================================================================

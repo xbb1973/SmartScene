@@ -25,4 +25,14 @@ public class BlueToothFonction extends SceneFonction {
     public boolean getInfo() {
         return false;
     }
+
+    @Override
+    public boolean active(Context context) {
+        return false;
+    }
+
+    @Override
+    public boolean inactive(Context context) {
+        return false;
+    }
 }

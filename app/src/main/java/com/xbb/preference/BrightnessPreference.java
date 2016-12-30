@@ -23,4 +23,5 @@ public class BrightnessPreference extends FonctionPreference {
     public void update(SceneFonction preferenceActivity) {
 
     }
+
 }
